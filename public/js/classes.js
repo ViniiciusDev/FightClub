@@ -62,3 +62,44 @@ class Dragon extends Character   {
       this.maxLife = this.life;
    }
 }
+
+// Layout Stage --------------------------------------------------
+
+class Stage {
+   constructor(mainFighter, npcFighter, mainFighterElement, npcFighterElement)  {
+      this.mainFighter = mainFighter;
+      this.npcFighter = npcFighter;
+      this.mainFighterElement = mainFighterElement;
+      this.npcFighterElement = npcFighterElement;
+   }
+
+   start()  {
+      this.update();
+
+      // Attack Event ------------------------------------------
+      this.mainFighterElement.querySelector('.attack-btn').addEventListener('click', () => this.doAttack(this.mainFighter, this.npcFighter));
+
+      this.npcFighterElement.querySelector('.attack-btn').addEventListener('click', () => this.doAttack(this.npcFighter, this.mainFighter));
+   }
+
+   update() {
+      // Player ------------------------------------------------
+      this.mainFighterElement.querySelector('.name').innerHTML = `${this.mainFighter.name} - ${this.mainFighter.life} HP`;
+      // Lifebar Player
+      let playerPct = (this.mainFighter.life / this.mainFighter.maxLife) * 100;
+      this.mainFighterElement.querySelector('.life').style.width = `${playerPct}%`;
+
+      // NPC ---------------------------------------------------
+      this.npcFighterElement.querySelector('.name').innerHTML = `${this.npcFighter.name} - ${this.npcFighter.life} HP`;
+      // Lifebar NPC
+      let npcPct = (this.npcFighter.life / this.npcFighter.maxLife) * 100;
+      this.npcFighterElement.querySelector('.life').style.width = `${npcPct}%`;  
+   }
+
+   // Attack Event ---------------------------------------------
+   doAttack(attacking, attacked) {
+      console.log(`${attacking.name} Está atacando ${attacked.name}`);
+
+      this.update();
+   }
+}

@@ -1,12 +1,7 @@
-## Creazione Knight, Wizard
+## Creazione Characters
 
--  Life = Max and Current.
--  Name = User name
--  Attack Force = Quantità forza
--  Defense Force = Quantità armatura
-
-## Creazione Spyder, Dragon
-
+-  Player choice = Knight, Wizard
+-  PC Choice = Spyder, Dragon
 -  Life = Max and Current.
 -  Name = User name
 -  Attack Force = Quantità forza
