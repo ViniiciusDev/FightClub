@@ -66,11 +66,12 @@ class Dragon extends Character   {
 // Layout Stage --------------------------------------------------
 
 class Stage {
-   constructor(mainFighter, npcFighter, mainFighterElement, npcFighterElement)  {
+   constructor(mainFighter, npcFighter, mainFighterElement, npcFighterElement, logObject)  {
       this.mainFighter = mainFighter;
       this.npcFighter = npcFighter;
       this.mainFighterElement = mainFighterElement;
       this.npcFighterElement = npcFighterElement;
+      this.log = logObject;
    }
 
    start()  {
@@ -100,7 +101,7 @@ class Stage {
    doAttack(attacking, attacked) {
       // Caso sia morto uno dei player non possono attaccare
       if(attacking.life <= 0 || attacked.life <= 0 )  {
-         console.log("The enemy is already dead!!");
+         this.log.addMessage("The enemy is already dead!!");
          return;
       }
 
@@ -113,14 +114,36 @@ class Stage {
 
       if(actualAttack > actualDefense) {
          attacked.life -= actualAttack;
-         console.log(`${attacking.name} causou ${actualAttack.toFixed(2)} de dano em ${attacked.name}`);
+         this.log.addMessage(`${attacking.name} causou ${actualAttack.toFixed(2)} de dano em ${attacked.name}`);
       } else {
-         console.log(`${attacked.name} Defendeu com Successo.`);
+         this.log.addMessage(`${attacked.name} Defendeu com Successo.`);
       }
 
 
       console.log(actualAttack);
 
       this.update();
+   }
+}
+
+// Log System ----------------------------------------------------------
+class Log   {
+   list = [];
+
+   constructor(listElement)  {
+      this.listElement = listElement;
+   }
+
+   addMessage(msg)   {
+      this.list.push(msg);
+      this.render();
+   }
+
+   render() {
+      this.listElement.innerHTML = '';
+
+      for(let i in this.list) {
+         this.listElement.innerHTML += `<li>${this.list[i]}</li>`;
+      }
    }
 }
