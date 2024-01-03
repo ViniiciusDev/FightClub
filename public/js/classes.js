@@ -84,13 +84,13 @@ class Stage {
 
    update() {
       // Player ------------------------------------------------
-      this.mainFighterElement.querySelector('.name').innerHTML = `${this.mainFighter.name} - ${this.mainFighter.life} HP`;
+      this.mainFighterElement.querySelector('.name').innerHTML = `${this.mainFighter.name} - ${this.mainFighter.life.toFixed(1)} HP`;
       // Lifebar Player
       let playerPct = (this.mainFighter.life / this.mainFighter.maxLife) * 100;
       this.mainFighterElement.querySelector('.life').style.width = `${playerPct}%`;
 
       // NPC ---------------------------------------------------
-      this.npcFighterElement.querySelector('.name').innerHTML = `${this.npcFighter.name} - ${this.npcFighter.life} HP`;
+      this.npcFighterElement.querySelector('.name').innerHTML = `${this.npcFighter.name} - ${this.npcFighter.life.toFixed(1)} HP`;
       // Lifebar NPC
       let npcPct = (this.npcFighter.life / this.npcFighter.maxLife) * 100;
       this.npcFighterElement.querySelector('.life').style.width = `${npcPct}%`;  
@@ -98,7 +98,28 @@ class Stage {
 
    // Attack Event ---------------------------------------------
    doAttack(attacking, attacked) {
-      console.log(`${attacking.name} Está atacando ${attacked.name}`);
+      // Caso sia morto uno dei player non possono attaccare
+      if(attacking.life <= 0 || attacked.life <= 0 )  {
+         console.log("The enemy is already dead!!");
+         return;
+      }
+
+      let attackFactor = (Math.random() * 2).toFixed(2);
+      let defenseFactor = (Math.random() * 2).toFixed(2)
+      /* console.log(attackFactor); */
+
+      let actualAttack = attacking.attack * attackFactor;
+      let actualDefense = attacking.defense * defenseFactor;
+
+      if(actualAttack > actualDefense) {
+         attacked.life -= actualAttack;
+         console.log(`${attacking.name} causou ${actualAttack.toFixed(2)} de dano em ${attacked.name}`);
+      } else {
+         console.log(`${attacked.name} Defendeu com Successo.`);
+      }
+
+
+      console.log(actualAttack);
 
       this.update();
    }
